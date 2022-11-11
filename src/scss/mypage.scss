@@ -1,0 +1,33 @@
+.mypage {
+    ul {
+        padding-inline: 0px;
+        margin-block: 0px;
+        margin-inline: 0px;
+        list-style: none;
+        li{
+            margin: 20px;
+            border-bottom: 1px solid #F5F5F5;
+            span {
+                white-space: nowrap;
+                &:first-child {
+                    font-weight: 500;
+                    font-size: 13px;
+                    line-height: 23px;
+                    color: #171717;
+                }
+            }
+            div {
+                display: flex;
+                padding: 12px 0px;
+            }
+        }
+    }
+}
+
+.stores {
+    margin: 20px;
+    .subheader{
+        display: flex;
+        
+    }
+}

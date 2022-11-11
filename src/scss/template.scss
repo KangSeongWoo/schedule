@@ -1,0 +1,29 @@
+.headers {
+    background-color: #171717;
+    height: 100px;
+    padding : 25px;
+    .title {
+        white-space: nowrap;
+    }
+    .go-back {
+        position : absolute;
+        left : 23px
+    }
+}
+
+.divider {
+    &.horizental{
+        margin-top : 10px;
+        margin-bottom : 10px;
+        border-top-width: 1px;
+        border-top-color: #F2F4F6;
+        border-top-style: solid;
+    }
+    &.vertical{
+        margin-left : 10px;
+        margin-right : 10px;
+        border-left-width: 1px;
+        border-left-color: #F2F4F6;
+        border-left-style: solid;
+    }
+}

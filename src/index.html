@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta
+      name="description"
+      content="Web site created using create-react-app"
+    />
+    <title>pro-schedule-tools</title>
+    <script>
+      var isVisible = false;
+
+      document.addEventListener("scroll", function(){
+        if(window.scrollY > document.querySelector(".headers").clientHeight){
+          document.querySelector(".subheader").classList.add("fixsubheader") 
+          document.querySelector(".MainLayout-header").classList.add("fixed")
+          document.querySelector(".scheduler").style.marginTop = '75px'
+        } else {
+          document.querySelector(".subheader").classList.remove("fixsubheader")
+          document.querySelector(".MainLayout-header").classList.remove("fixed")
+          document.querySelector(".scheduler").style.marginTop = '0px'
+        }
+      })
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
