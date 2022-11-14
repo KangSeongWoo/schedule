@@ -7,15 +7,12 @@ import * as actions from '@store/actionCreators'
 
 const Layout = (props) => {
     return (
-        <>
-            <input type="checkbox" id="openSideMenu" name="openSideMenu" value="" hidden/>
-            <div className='layout'>
-                <div className='mainwrap'>
-                    <div className='dim'></div>
-                    <Contents props={{...props}}/>
-                </div>
+        <div className='layout'>
+            <div className='mainwrap'>
+                <div className='dim'></div>
+                <Contents props={{...props}}/>
             </div>
-        </>
+        </div>
     );
 }
 

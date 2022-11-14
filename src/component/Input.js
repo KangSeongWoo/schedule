@@ -1,15 +1,16 @@
 import React from 'react';
-import '../style/css/common.css';
+
+import '@scss/common.scss'
 
 const Input = (props) => {
     return (
         <div className='input '>
-            <input type={props.type} style={props.style} 
-                onInput={props.type != "checkbox" ? props.onChange : () => {}} 
-                onClick={props.type == "checkbox" ? props.onChange : () => {}}
-                onBlur={props.onBlur}
+            <input 
+                style={props.style} 
+                onClick={props.onChange} 
                 defaultChecked={props.checked}
                 defaultValue={props.defaultValue}
+                disabled={props.disabled}
                 value={props.value}
                 name={props.name}
                 id={props.id}

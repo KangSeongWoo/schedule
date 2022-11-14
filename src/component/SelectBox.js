@@ -15,8 +15,8 @@ const SelectBox = (props) => {
     return (
         <div className="selectbox">
             <div className={"selectBox-custom flex-center-center " + (props.border == true ? "border " : '')} onClick={showOptions}>
-                <i className="svgicon" dangerouslySetInnerHTML={ {__html: props?.arr?.find((element, index) => element.value == props.value)?.icon} }></i>
-                <span style={{marginLeft : '8px'}}>{ props?.arr?.find((element, index) => element.value == props.value)?.name }</span>
+                <i className="svgicon" dangerouslySetInnerHTML={ {__html: props?.arr?.find((element, index) => element.value == props.value.value)?.icon} }></i>
+                <span style={{marginLeft : props.border ? '8px' : ''}}>{ props?.arr?.find((element, index) => element.value == props.value.value)?.name }</span>
                 <div className='spacer'></div>
                 <i className='flex-center-center' style={{width : '15px'}}>
                     <svg width="5" height="5" viewBox="0 0 5 5" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -24,11 +24,11 @@ const SelectBox = (props) => {
                     </svg>
                 </i>
             </div>
-            <div className={'option-area ' + (!isShow ? 'no-show' : '')}>
-                <ul>
+            <div className={'option-area ' + (!isShow ? 'no-show' : '')} style={props.style}>
+                <ul style={{ display : props.horizental ? "flex" : "" }}>
                     { 
                         props?.arr?.map((element) => (
-                            <li key={element.value} onClick={() => changeOption(element)}>
+                            <li key={element.value} onClick={() => changeOption(element)} style={{margin : props.type == 'icon' ? '10px 6px -4px 6px' : ''}}>
                                 <i className="svgicon" dangerouslySetInnerHTML={ {__html: element.icon} }></i>
                                 <span style={{marginLeft : '8px'}}>{ element.name }</span>
                             </li>

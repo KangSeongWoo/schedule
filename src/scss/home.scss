@@ -94,30 +94,35 @@ color: #d10000;
 .home .subheader > div:nth-child(1) {
     display: flex;
 }
-.home .subheader {
-    padding: 10px 20px 20px 10px;
-}
-.home .calendar {
-    margin-top : 10px;
-}
-.home .calendar .dot {
-    height: 8px;
-    width: 8px;
-    background-color: #f87171;
-    border-radius: 50%;
-    display: flex;
-    margin-left: 1px;
-}
 
-.home .scheduler .MainLayout-header.fixed{
-    position: fixed;
-    top : 70px
-}
-
-.home .scheduler .appointment {
-    width: 100%;
-    height: 100%;
-    padding: 5px;
+.home {
+    .calendar {
+        margin-top : 10px;
+        .dot {
+            height: 8px;
+            width: 8px;
+            background-color: #f87171;
+            border-radius: 50%;
+            display: flex;
+            margin-left: 1px;
+        }
+    }
+    .subheader {
+        padding: 10px 20px 20px 10px;
+    }
+    .scheduler {
+        .MainLayout-header{
+            &.fixed{
+                position: fixed;
+                top : 70px
+            }
+        }
+        .appointment {
+            width: 100%;
+            height: 100%;
+            padding: 5px;
+        }
+    }
 }
 
 .detail {

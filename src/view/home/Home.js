@@ -55,7 +55,7 @@ const Home = (props) => {
   }
 
   const changeFilter = (target) => {
-    setDefaultFilter(target.value)
+    setDefaultFilter({ value : target.value })
     if(target.value == '1'){
       setViewState({
         ...viewState,

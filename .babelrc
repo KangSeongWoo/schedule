@@ -1,0 +1,27 @@
+{
+    "plugins": [
+      [
+        "module-resolver",
+        {
+          "root": ["./"],
+          "alias": {
+            "@src": "/src",
+            "@store" : "/src/store",
+            "@component" : "/src/component",
+            "@template" : "/src/view/template",
+            "@scss": "/src/scss",
+            "@utils": "/src/utils",
+            "@api": "/src/api",
+            "@image" : "/public/images",
+            "@view" : "/src/view"
+          }
+        }
+      ]
+    ],
+    "env": {
+      "--production": {
+        "plugins": ["transform-remove-console"]
+      }
+    }
+  }
+  

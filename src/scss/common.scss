@@ -32,9 +32,6 @@ span {
     margin-left : 10px;
 }
 
-.button-custom span { 
-    white-space: nowrap;
-}
 
 .border{
     border: 1px solid #444444;
@@ -51,36 +48,59 @@ span {
     top: 2px;
 }
 
+.button-custom { 
+    span { 
+        white-space: nowrap;
+    }
+    &.black {
+        font-weight: 500;
+        font-size: 11px;
+        color: rgb(255, 255, 255);
+        background-color: rgb(23, 23, 23);
+        padding: 5px 20px;
+        border-radius: 8px;
+    }
+}
+
+.input {
+    background: #FFFFFF;
+    border: 1px solid #C1C1C1;
+    border-radius: 10px;
+    input { 
+        width: 125px;
+        height: 30px;
+        background-color: transparent;
+        border-color: transparent;
+    }
+}
+
 // 셀렉트박스 관련
 .selectbox {
-    
-}
-.selectbox .selectBox-custom{
-    width : 80px
-}
-
-.selectbox .selectBox-custom span { 
-    white-space: nowrap;
-}
-
-.selectbox .option-area {
-    background-color: white;
-    width: 134px;
-    border: 1px solid black;
-    border-radius: 10px;
-    position: fixed;
-    right: 18px;
-    margin-top: 4px;
-    z-index : 10;
-}
-
-.selectbox .option-area ul{
-    list-style: none;
-    padding-inline: 0px;
-    margin-inline: 0px;
-    margin-block: 0px;
-}
-
-.selectbox .option-area ul li {
-    margin : 10px 10px 10px 10px
+    .option-area {
+        background-color: white;
+        min-width: 134px;
+        border: 1px solid black;
+        border-radius: 10px;
+        position: fixed;
+        right: 18px;
+        margin-top: 4px;
+        z-index : 10;
+        ul{
+            list-style: none;
+            padding-inline: 0px;
+            margin-inline: 0px;
+            margin-block: 0px;
+            li {
+                margin : 10px 10px 10px 10px
+            }
+        }
+    }
+    .selectBox-custom{
+        width : 80px;
+        span { 
+            white-space: nowrap;
+            overflow-x: auto;
+            min-width: 50px;
+        }
+    }
 }
