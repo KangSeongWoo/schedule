@@ -3,7 +3,7 @@ import '@scss/common.scss'
 
 const Button = (props) => {
     return (
-        <div className={"button-custom " + props.className + (props.border == true ? " border " : '') + (props.black == true ? " black " : '') + (props.children !== null ? " flex-center-center" : '')} onClick={() => props.onChange()} style={props.style}>
+        <div className={"button-custom " + props.className + (props.border == true ? " border " : '') + (props.white == true ? " white " : '') + (props.black == true ? " black " : '') + (props.children !== null ? " flex-center-center" : '')} onClick={() => props.onChange()} style={props.style}>
             {
                 props.children && (
                     <div className='svgicon' style={{marginRight : '8px'}}>{props.children !== null ? props.children : ""}</div>

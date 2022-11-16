@@ -1,9 +1,9 @@
 import React from 'react';
-import '../style/css/common.css';
+import '@scss/common.scss';
 
 const Title = (props) => {
     return (
-        <div className={"title "}>
+        <div className={"title "} style={props.style}>
            <span style={{whiteSpace : 'nowrap'}}>
                 {props.label}
            </span>

@@ -2,12 +2,12 @@ import React from 'react';
 
 import '@scss/common.scss'
 
-const Input = (props) => {
+const Textarea = (props) => {
     return (
-        <div className='input '>
-            <input 
+        <div className='textarea '>
+            <textarea 
                 style={props.style} 
-                onClick={props.onChange} 
+                onChange={props.onChange} 
                 defaultChecked={props.checked}
                 defaultValue={props.defaultValue}
                 disabled={props.disabled}
@@ -21,4 +21,4 @@ const Input = (props) => {
     );
 }
 
-export default Input;
+export default Textarea;

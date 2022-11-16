@@ -1,4 +1,5 @@
 .mypage {
+    margin-top: 74px;
     ul {
         padding-inline: 0px;
         margin-block: 0px;
@@ -24,7 +25,114 @@
     }
 }
 
-.stores {
+// 휴무일 관리
+.holidays {
+    margin: 20px;
+    margin-top: 74px;
+    .subheader{
+        display: flex;
+    }
+    .holiday-register {
+        line-height: 27px;
+        .title{
+            margin-top: 20px;
+        }
+        .content {
+            margin-top: 10px;
+            .area1 {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+            .area2 {
+                margin-top:5px
+            }
+        }
+        .holidaynotice {
+            font-weight: 500;
+            font-size: 10px;
+            line-height: 27px;
+            color: #959595;
+        }
+    }
+    .holiday-list {
+        margin-top: 20px;
+        .title{
+
+        }
+        .area1 {
+            margin-top: 10px;
+            .info{
+                line-height: 31px;
+                .period{
+                    .delete{
+                        position: relative;
+                        right: -100px;
+                        top: -15px;
+                        font-weight: 500;
+                        font-size: 8px;
+                        line-height: 12px;
+                        color: #A8A8A8;
+                    }
+                }
+            }
+        }
+    }
+}
+
+// 근무 매장 관리
+.storemanage {
+    margin : 20px;
+    margin-top: 83px;
+    .store-list {
+        margin-top: 10px;
+        .info{
+            line-height: 30px;
+            .storename{
+                font-weight: 700;
+                font-size: 13px;
+                line-height: 27px;
+                color: #191F28;
+            }
+            .workingdays{
+                display: inline-flex;
+                flex-direction: row;
+                .workingday{
+                    margin-right: 8px;
+                    background-color: black;
+                    width: 20px;
+                    height: 20px;
+                    color: #ffffff;
+                    border-radius: 15px;
+                    padding: 1px;
+                    font-weight: 500;
+                    font-size: 11px;
+                    line-height: 23px;
+                }
+            }
+        }
+    }
+}
+
+// 근무 스케줄 관리 화면
+.workingdaysmanage {
+    margin-top: 65px;
+    .scheduler{
+        .MainLayout-header{
+            position: fixed;
+            top : 65px
+        }
+        .appointment {
+            width: 100%;
+            height: 100%;
+            padding: 5px;
+        }
+    }
+}
+
+// 매장 관리 상세 화면
+.storemanagedetail {
+    margin-top: 45px;
     margin: 20px;
     .subheader{
         display: flex;
@@ -41,10 +149,48 @@
         line-height: 27px;
         .selectstores, .selectcolor{
             display: flex;
+            margin-top: 10px;
+        }
+        .selectWeekOfDays {
+            margin-top: 10px;
+            margin-bottom: 10px;
+            ul {
+                display: flex;
+                justify-content: space-between;
+                list-style: none;
+                margin-block : 0px;
+                margin-inline: 0px;
+                padding-inline: 0px;
+                li {
+                    width: 32px;
+                    height: 32px;
+                    div {
+                        width: inherit;
+                        height: inherit;
+                        background-color: #ffffff;
+                        border: 1px solid #CECECE;
+                        border-radius: 18px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        &.selected { 
+                            background-color: #1A1A1A;
+                            color : #FFFFFF
+                        }
+                    }
+                }
+            }
         }
         .label{
             white-space: nowrap;
         }
+    }
+    .button-area {
+        position: absolute;
+        bottom: 0px;
+        left: 0px;
+        right: 0px;
+        margin: 15px;
     }
     .coloricon { 
         width: 22px;
@@ -56,31 +202,18 @@
         align-items: center;
         justify-content: space-between;
     }
-    .selectWeekOfDays {
-        ul {
-            display: flex;
-            justify-content: space-between;
-            list-style: none;
-            margin-block : 0px;
-            margin-inline: 0px;
-            padding-inline: 0px;
-            li {
+    
+
+    .selectedDays {
+        .times {
+            .time-row {
+                border-radius: 20px;
                 width: 32px;
                 height: 32px;
-                div {
-                    width: inherit;
-                    height: inherit;
-                    background-color: #ffffff;
-                    border: 1px solid #CECECE;
-                    border-radius: 18px;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    &.selected { 
-                        background-color: #1A1A1A;
-                        color : #FFFFFF
-                    }
-                }
+                background-color: rgb(26, 26, 26);
+                font-weight: 500;
+                font-size: 15px;
+                color: rgb(255, 255, 255);
             }
         }
     }

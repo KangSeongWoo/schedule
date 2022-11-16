@@ -1,0 +1,42 @@
+.login{
+    height: 100vh;
+    background-position-x: 415px;
+    .logo {
+        margin-bottom: 100px;
+        height: inherit;
+        img { 
+            width: 200px;
+            height: 90px;
+            margin-top: -200px;
+        }
+    }
+    .login-button {
+        position: fixed;
+        bottom : 150px;
+        left: 0px;
+        right: 0px;
+        span {
+            &:last-child{
+                color: #DDDDDD;
+                font-weight: 700;
+                font-size: 13px;
+                line-height: 19px;
+                display: flex;
+                justify-content: center;
+                margin-top: 8px;
+            }
+        }
+    }
+    .sign-in {
+        position: fixed;
+        bottom : 100px;
+        left: 0px;
+        right: 0px;
+        span {
+            font-weight: 400!important;
+            font-size: 13px!important;
+            line-height: 19px!important;
+            color: #FFFFFF!important;
+        }
+    }
+}

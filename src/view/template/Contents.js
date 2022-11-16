@@ -6,6 +6,7 @@ const Home = loadable(() => import('@view/home/Home'));
 const Detail = loadable(() => import('@view/home/detail/Detail'));
 const Mypage = loadable(() => import('@view/mypage/Mypage'));
 const StoresManage = loadable(() => import('@view/mypage/detail/StoresManage'));
+const StoresManageDetail = loadable(() => import('@view/mypage/detail/StoresManageDetail'));
 const WorkingdaysManage = loadable(() => import('@view/mypage/detail/WorkingdaysManage'));
 const HolidaysManage = loadable(() => import('@view/mypage/detail/HolidaysManage'));
 
@@ -19,6 +20,7 @@ const Contents = (props) => {
       <Route path={`${match.path}detail`} component={Detail} />
       <Route path={`${match.path}mypage`} component={Mypage} />
       <Route path={`${match.path}storesmanage`} component={StoresManage} />
+      <Route path={`${match.path}storesmanagedetail`} component={StoresManageDetail} />
       <Route path={`${match.path}workingdaysmanage`} component={WorkingdaysManage} />
       <Route path={`${match.path}holidaysmanage`} component={HolidaysManage} />
     </div>
