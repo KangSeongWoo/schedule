@@ -10,6 +10,8 @@ const StoresManageDetail = loadable(() => import('@view/mypage/detail/StoresMana
 const WorkingdaysManage = loadable(() => import('@view/mypage/detail/WorkingdaysManage'));
 const HolidaysManage = loadable(() => import('@view/mypage/detail/HolidaysManage'));
 
+const Test = loadable(() => import('@view/test/Test'));
+
 const Contents = (props) => {
   const { match } = props.props
 
@@ -23,6 +25,8 @@ const Contents = (props) => {
       <Route path={`${match.path}storesmanagedetail`} component={StoresManageDetail} />
       <Route path={`${match.path}workingdaysmanage`} component={WorkingdaysManage} />
       <Route path={`${match.path}holidaysmanage`} component={HolidaysManage} />
+
+      <Route path={`${match.path}test`} component={Test} />
     </div>
   );
 }

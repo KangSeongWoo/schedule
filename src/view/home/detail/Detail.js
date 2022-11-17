@@ -9,7 +9,7 @@ const Detail = (props) => {
   return (
     <>
         <Headers title="레슨 예약 내역" goback gobackFunction = "/home"/>
-        <div className='detail'>
+        <div className='homedetail'>
             <ul>
                 <li>
                     <div>

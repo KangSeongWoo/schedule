@@ -61,6 +61,7 @@ color: #d10000;
     border-radius: 10px;
     color: white;
     //padding: 3px;
+    flex-direction: column;
     display: inline-flex;
     justify-content: center;
     align-items: center;
@@ -108,24 +109,67 @@ color: #d10000;
         }
     }
     .subheader {
-        padding: 10px 20px 20px 10px;
+        padding: 10px 20px 2px 10px;
+        background-color: #E5E5E5;
     }
     .scheduler {
-        .MainLayout-header{
+        .fc-col-header {
+            background-color: #FFFFFF;
             &.fixed{
                 position: fixed;
-                top : 70px
+                top : 54px
             }
         }
-        .appointment {
-            width: 100%;
-            height: 100%;
-            padding: 5px;
+        .fc-day-today {
+            background-color: transparent;
+        }
+        // .appointment {
+        //     width: 100%;
+        //     height: 100%;
+        //     padding: 5px;
+        // }
+        #calendar{
+            .date-format {
+                font-weight: 500;
+                font-size: 12px;
+                line-height: 15px;
+                color : #6C6C6C;
+            }
+            .fc-header-toolbar{
+                &.fc-toolbar{
+                    &.fc-toolbar-ltr{
+                        display: none;
+                    }
+                }
+            }
+            .fc-timegrid-slots{
+                tbody{
+                    tr {
+                        &:nth-child(2n){
+                            border : 1px solid transparent
+                        }
+                    }
+                }
+                .fc-timegrid-slot-label-frame {
+                    position: relative;
+                    top: 14px;
+                    font-weight: 500;
+                    font-size: 10px;
+                    line-height: 14px;
+                    text-align: center;
+                    letter-spacing: -0.24px;
+                    color : #6C6C6C
+                }
+                .fc-theme-standard th {
+                    border: 1px solid #F6F6F6;
+                }
+            }  
         }
     }
 }
 
-.detail {
+.homedetail {
+    margin-top: 80px;
     ul {
         padding-inline: 0px;
         margin-block: 0px;

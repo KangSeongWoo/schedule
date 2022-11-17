@@ -10,10 +10,6 @@ request.defaults.timeout = 10000;
 request.interceptors.request.use(
     config => {
         console.log(config)
-        const token = localStorage.getItem('token')
-        token && (
-            config.headers = { 'Accept': "application/json, text/plain, */*", 'Content-Type':'application/json','authorization': Common.trim(config.headers.authorization) != "" ? config.headers.authorization : 'bearer ' + token}
-        )
         return config;
     },
     error => {
