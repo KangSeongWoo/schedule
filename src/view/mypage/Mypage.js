@@ -17,6 +17,10 @@ const MyPage = (props) => {
 
   const logout = () => {
     console.log("로그아웃")
+    //const target = `${process.env.VUE_APP_AUTH_LOGOUT_URL}?redirect_uri=${encodeURIComponent(`${process.env.VUE_APP_API_BASE_URL}/logout?redirect_uri=${window.location.origin + "/login"}`)}`;
+
+    const target = process.env.AUTH_LOGOUT_URL + "?redirect_uri=" + encodeURIComponent(process.env.API_URL + "/logout?redirect_uri=" + window.location.origin + "/login")
+    window.location.href = target;
   }
 
   return (

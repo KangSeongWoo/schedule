@@ -1,4 +1,4 @@
-import React, { useLayoutEffect,useState } from 'react';
+import React, { useEffect, useLayoutEffect,useState } from 'react';
 import Headers from '@template/Header'
 import moment from 'moment';
 import { ViewState,EditingState } from '@devexpress/dx-react-scheduler';
@@ -9,54 +9,93 @@ import SelectBox from '@component/SelectBox'
 import Input from '@component/Input'
 import BottomTimePopUp from '@component/BottomTimePopUp';
 import { WeekOfDays, selectColors } from '@utils/constant';
-import { HashRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
+import { HashRouter as Router, Route, Switch, Redirect, useHistory } from 'react-router-dom'
 import loadable from '@loadable/component'
 
 import '@scss/mypage.scss'
 
-const currentDate = moment().format("YYYY-MM-DD");
-
 const schedulerData = [
-  { startDate: '2022-11-10T09:45', endDate: '2022-11-10T11:00', title: 'Meeting' },
-  { startDate: '2022-11-11T12:00', endDate: '2022-11-11T13:30', title: 'Go to a gym' },
+  {
+    title: 'All Day Event',
+    start: '2022-11-18T16:00:00',
+    end: '2022-11-18T17:00:00',
+    color : '#000000'
+  },
+  {
+    title: 'Long Event',
+    start: '2022-11-17',
+    end: '2022-11-18',
+    color : 'yellow'
+  },
+  {
+    title: 'Repeating Event',
+    start: '2022-11-19T16:00:00',
+    end: '2022-11-19T20:00:00',
+    color : 'blue'
+  },
+  {
+    title: 'Repeating Event1',
+    start: '2022-11-20T09:00:00',
+    end: '2022-11-20T14:00:00',
+    color : 'green'
+  },
 ];
 
 const StoresManage = (props) => {
-  const AppointmentContent = (e) => {
-    return (
-      <div className="appointment" onClick={() => detailAppointment(e)}>
-        <span>{e.data.title}</span><br/>
-        <span>{moment(e.data.startDate).format("h:mm a")} ~ {moment(e.data.endDate).format("h:mm a")}</span>
-      </div>
-    )
-  }
+  let history = useHistory();
 
-  const detailAppointment = (e) => {
-    history.push({
-      pathname: "/storemanagedetail",
-      state: e
+  useEffect(() => {
+    var calendarEl = document.getElementById('calendar');
+  
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      selectable: false,
+      timeZone: 'UTC',
+      initialView: 'timeGridWeek',   
+      headerToolbar: {
+        left: 'prev,next',
+        center: 'title',
+        right: 'timeGridDay,timeGridWeek'
+      },
+      slotMinTime: "06:00:00",
+      slotMaxTime: "23:59:59",
+      dayHeaderContent: function(target){
+        console.log(target)
+        return { 
+          html : "<div class='date-format'><div>" + moment(target.date).lang("ko").format("dddd").substring(0,1) + "</div><div>" + moment(target.date).format("MM.DD") + "</div></div>"
+        }
+      },
+      allDaySlot: false,
+      height: 'auto',
+      locale: 'en-GB',
+      scrollTime: '00:00',
+      slotLabelFormat: {  
+        hour: 'numeric',
+        minute: '2-digit',
+        omitZeroMinute: false,
+      },
+      eventClick : function(info) {
+        history.push({
+          pathname: "/storesmanagedetail",
+          state: info
+        })
+      },
+      dateClick: function(info) {
+        history.push({
+          pathname: "/storesmanagedetail",
+          state: info
+        })
+      },
+      events: schedulerData
     })
-  }
+    calendar.render();
+  },[])
 
   return (
     <>
       <Headers title="근무 스케쥴 관리" goback gobackFunction = "/mypage"/>
       <div className='workingdaysmanage'>
         <div className='scheduler'>
-          <Scheduler
-            data={schedulerData}
-          >
-            <ViewState
-              defaultCurrentDate={currentDate}
-              currentViewName="Week"
-            />
-
-            <WeekView
-              startDayHour={6}
-              endDayHour={23}
-            />
-            <Appointments appointmentContentComponent={AppointmentContent}/>
-          </Scheduler>
+          <div id='calendar'></div>
         </div> 
       </div>
     </>

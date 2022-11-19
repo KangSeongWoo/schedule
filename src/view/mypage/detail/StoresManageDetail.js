@@ -110,7 +110,7 @@ const StoresManageDetail = (props) => {
 
   return (
     <>
-        <Headers title="근무 매장 관리" goback gobackFunction = "/mypage"/>
+        <Headers title="근무 매장 관리" goback gobackFunction = "/workingdaysmanage"/>
         <div className='storemanagedetail'>
             <div className='subheader'>
                 <Button label="근무 설정" noarrow style={{ display : 'block', borderBottom : '1px solid #000000', padding: '10px 0px' }}/>

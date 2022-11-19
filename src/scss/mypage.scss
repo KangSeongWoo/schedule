@@ -128,6 +128,60 @@
             padding: 5px;
         }
     }
+    .scheduler {
+        .fc-col-header {
+            background-color: #FFFFFF;
+            &.fixed{
+                position: fixed;
+                top : 54px
+            }
+        }
+        .fc-day-today {
+            background-color: transparent;
+        }
+        // .appointment {
+        //     width: 100%;
+        //     height: 100%;
+        //     padding: 5px;
+        // }
+        #calendar{
+            .date-format {
+                font-weight: 500;
+                font-size: 12px;
+                line-height: 15px;
+                color : #6C6C6C;
+            }
+            .fc-header-toolbar{
+                &.fc-toolbar{
+                    &.fc-toolbar-ltr{
+                        display: none;
+                    }
+                }
+            }
+            .fc-timegrid-slots{
+                tbody{
+                    tr {
+                        &:nth-child(2n){
+                            border : 1px solid transparent
+                        }
+                    }
+                }
+                .fc-timegrid-slot-label-frame {
+                    position: relative;
+                    top: 14px;
+                    font-weight: 500;
+                    font-size: 10px;
+                    line-height: 14px;
+                    text-align: center;
+                    letter-spacing: -0.24px;
+                    color : #6C6C6C
+                }
+                .fc-theme-standard th {
+                    border: 1px solid #F6F6F6;
+                }
+            }  
+        }
+    }
 }
 
 // 매장 관리 상세 화면

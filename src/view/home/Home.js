@@ -53,7 +53,7 @@ const Home = (props) => {
   let history = useHistory();
 
   useLayoutEffect(() => {
-    //console.log(KioskService.fetchUserProfile())
+    console.log(KioskService.fetchUserProfile())
     changeFilter(defaultFilter)
   },[])
 
