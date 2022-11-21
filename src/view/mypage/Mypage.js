@@ -10,16 +10,13 @@ const MyPage = (props) => {
 
   const movePage = (target) => {
     history.push({
-      pathname: target,
-      state: {}
+        pathname: target,
+        state: {}
     })
   }
 
   const logout = () => {
-    console.log("로그아웃")
-    //const target = `${process.env.VUE_APP_AUTH_LOGOUT_URL}?redirect_uri=${encodeURIComponent(`${process.env.VUE_APP_API_BASE_URL}/logout?redirect_uri=${window.location.origin + "/login"}`)}`;
-
-    const target = process.env.AUTH_LOGOUT_URL + "?redirect_uri=" + encodeURIComponent(process.env.API_URL + "/logout?redirect_uri=" + window.location.origin + "/login")
+    const target = process.env.AUTH_LOGOUT_URL + "?redirect_uri=" + encodeURIComponent(process.env.API_URL + "/logout?redirect_uri=" + window.location.origin + "/#/login")
     window.location.href = target;
   }
 
@@ -28,7 +25,7 @@ const MyPage = (props) => {
         <Headers title="MY"/>
         <div className='mypage'>
             <ul>
-                <li onClick={() => movePage()}>
+                <li onClick={() => movePage(process.env.AUTH_MY_INFO_URL)}>
                     <div>
                         <span className='label'>내 정보 수정</span>
                         <div className='spacer'></div>

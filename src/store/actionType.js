@@ -4,8 +4,7 @@
  import * as types from './ActionTypes' 를 할 수 있어요.
 */
 
-export const SET_ADMIN_USER_INFO    = 'SET_ADMIN_USER_INFO';
-export const CLEAR_ALL_STATE        = "CLEAR_ALL_STATE";
-export const SET_STORE_LIST         = 'SET_STORE_LIST';
-export const SET_STORE_INFO         = "SET_STORE_INFO";
-export const SET_STORE              = "SET_STORE";
+export const SET_USER_INFO      = 'SET_USER_INFO';
+export const CLEAR_ALL_STATE    = "CLEAR_ALL_STATE";
+export const OPEN_POPUP         = 'OPEN_POPUP';
+export const CLOSE_POPUP        = 'CLOSE_POPUP';

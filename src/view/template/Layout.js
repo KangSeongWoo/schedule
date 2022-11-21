@@ -1,5 +1,6 @@
 import React from 'react';
 import Contents from '@template/Contents'
+import Popup from '@component/Popup';
 
 import { connect } from 'react-redux'
 import * as Common from '@utils/common.js';
@@ -9,25 +10,11 @@ const Layout = (props) => {
     return (
         <div className='layout'>
             <div className='mainwrap'>
-                <div className='dim'></div>
+                <Popup/>
                 <Contents props={{...props}}/>
             </div>
         </div>
     );
 }
-
-const mapDispatchToProps = (dispatch) => ({
-    // setLogin: () => {
-    //     dispatch(actions.setLogin())
-    // }
-})
-
-
-const mapReduxStateToReactProps = (state) => {
-    return ({
-     
-    })
-}
   
-  
-export default connect(mapReduxStateToReactProps, mapDispatchToProps)(Layout)
+export default Layout

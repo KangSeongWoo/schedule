@@ -1,12 +1,12 @@
 // 일주일 정보
 export const WeekOfDays = [
-    { label : "월", value : 'Monday',   valueNum : 0},
-    { label : "화", value : 'Tuesday',  valueNum : 1},
-    { label : "수", value : 'Wednesday',valueNum : 2},
-    { label : "목", value : 'Thursday', valueNum : 3},
-    { label : "금", value : 'Friday',   valueNum : 4},
-    { label : "토", value : 'Saturday', valueNum : 5},
-    { label : "일", value : 'Sunday',   valueNum : 6},
+    { label : "월", value : 'Monday',   valueNum : 1},
+    { label : "화", value : 'Tuesday',  valueNum : 2},
+    { label : "수", value : 'Wednesday',valueNum : 3},
+    { label : "목", value : 'Thursday', valueNum : 4},
+    { label : "금", value : 'Friday',   valueNum : 5},
+    { label : "토", value : 'Saturday', valueNum : 6},
+    { label : "일", value : 'Sunday',   valueNum : 0},
 ]
 
 // 매장 색상

@@ -3,6 +3,7 @@ import * as Common from '../utils/common.js';
 
 const request = axios.create({
     baseURL :  process.env.API_URL,
+    withCredentials : true
 })
 
 request.defaults.timeout = 10000;

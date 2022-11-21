@@ -1,6 +1,7 @@
 import React, { useEffect, useLayoutEffect,useState } from 'react';
 import Headers from '@template/Header'
 import moment from 'moment';
+import KioskService from '@api/KioskService'
 import { ViewState,EditingState } from '@devexpress/dx-react-scheduler';
 import { Scheduler, DayView, WeekView, Appointments } from '@devexpress/dx-react-scheduler-material-ui';
 import Button from '@component/Button'
@@ -14,35 +15,48 @@ import loadable from '@loadable/component'
 
 import '@scss/mypage.scss'
 
-const schedulerData = [
-  {
-    title: 'All Day Event',
-    start: '2022-11-18T16:00:00',
-    end: '2022-11-18T17:00:00',
-    color : '#000000'
-  },
-  {
-    title: 'Long Event',
-    start: '2022-11-17',
-    end: '2022-11-18',
-    color : 'yellow'
-  },
-  {
-    title: 'Repeating Event',
-    start: '2022-11-19T16:00:00',
-    end: '2022-11-19T20:00:00',
-    color : 'blue'
-  },
-  {
-    title: 'Repeating Event1',
-    start: '2022-11-20T09:00:00',
-    end: '2022-11-20T14:00:00',
-    color : 'green'
-  },
-];
-
 const StoresManage = (props) => {
+  const [ rowData, setRowData ] = useState()
+  const [ stores, setStores ] = useState()
+
   let history = useHistory();
+
+  useEffect(() => {
+    getWorkStores();
+  },[])
+
+  const getWorkStores = () => {
+    KioskService.fetchWorkStores()
+      .then(response => {
+        let result = response.data[0].stores
+
+        setRowData(result)
+
+        let modifiedStore = []
+
+        result.map((element1) => {
+          element1.schedules.map((element2, index) => {
+            modifiedStore.push(
+              {
+                title : element1.storeName,
+                start: moment().startOf('isoWeek').add(index, "days").format("YYYY-MM-DD") + "T" + element2.workingStartTime.slice(0,2) + ":"+ element2.workingStartTime.slice(2,4) + ":00",
+                end: moment().startOf('isoWeek').add(index, "days").format("YYYY-MM-DD") + "T" + element2.workingEndTime.slice(0,2) + ":"+ element2.workingEndTime.slice(2,4) + ":00",
+                color : element1.employeeStoreColor != null ? element1.employeeStoreColor : '#152B5A',
+                id : element1.storeId
+              }
+            )
+          })
+        })
+
+        setStores(modifiedStore)
+      })
+      .catch(error => {
+        console.error(error)
+      })
+      .finally(() => {
+
+      })
+  }
 
   useEffect(() => {
     var calendarEl = document.getElementById('calendar');
@@ -59,9 +73,13 @@ const StoresManage = (props) => {
       slotMinTime: "06:00:00",
       slotMaxTime: "23:59:59",
       dayHeaderContent: function(target){
-        console.log(target)
         return { 
           html : "<div class='date-format'><div>" + moment(target.date).lang("ko").format("dddd").substring(0,1) + "</div><div>" + moment(target.date).format("MM.DD") + "</div></div>"
+        }
+      },
+      eventContent: function(target){
+        return { 
+          html : "<div>" + target.event.title + "</div>"
         }
       },
       allDaySlot: false,
@@ -76,19 +94,19 @@ const StoresManage = (props) => {
       eventClick : function(info) {
         history.push({
           pathname: "/storesmanagedetail",
-          state: info
+          state: rowData.filter((element) => element.storeId !== info.event.id)[0]
         })
       },
       dateClick: function(info) {
         history.push({
           pathname: "/storesmanagedetail",
-          state: info
+          state: info.event
         })
       },
-      events: schedulerData
+      events: stores
     })
     calendar.render();
-  },[])
+  },[stores])
 
   return (
     <>

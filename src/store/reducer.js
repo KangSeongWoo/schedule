@@ -2,6 +2,7 @@ import * as types from './actionType';
 import { combineReducers } from "redux";
 import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
+import { startTransition } from 'react';
 
 const persistConfig = {
     key: "root",
@@ -9,50 +10,48 @@ const persistConfig = {
   };
 // 초기 상태를 정의합니다.
 const initialState = {
-    admin: {
+    user: {
         
+    },
+    popup: {
+        flag : false,
+        title : '',
+        message : '',
+        callbackFunction : null
     }
 }
 
 export const reduxState = (state = initialState, action) => {
     switch (action.type) {
-        case types.SET_ADMIN_USER_INFO:
-            localStorage.setItem("token", action.params.token)
+        case types.SET_USER_INFO:
             return {
                 ...state,
-                admin : {
-                    ...state.admin,
-                    ...action.params.user_info,
-                    token : action.params.token,
+                user : {
+                    ...state.user,
+                    ...action.params,
                 }
             }
-        case types.SET_STORE_LIST:
+        case types.OPEN_POPUP: 
             return {
-                ...state,
-                admin : {
-                    ...state.admin,
-                    stores : action.params,
+                popup: {
+                    flag : true,
+                    title : action.params.title,
+                    message : action.params.message,
+                    callbackFunction : action.params.callbackFunction
                 }
             }
-        case types.SET_STORE_INFO:
+        case types.CLOSE_POPUP: 
             return {
-                ...state,
-                admin : {
-                    ...state.admin,
-                    storeinfo : action.params,
-                }
-            }
-        case types.SET_STORE:
-            return {
-                ...state,
-                admin : {
-                    ...state.admin,
-                    selectedStore : action.params,
+                popup: {
+                    flag : false,
+                    title : '',
+                    message : '',
+                    callbackFunction : null
                 }
             }
         case types.CLEAR_ALL_STATE:
             return {
-                admin: {}
+                user: {}
             }
         default:
             return state

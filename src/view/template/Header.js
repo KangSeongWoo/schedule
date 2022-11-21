@@ -8,6 +8,7 @@ import '@scss/template.scss'
 import '@scss/common.scss'
 
 const Headers = (props) => {
+    const { user } = props
     let history = useHistory();
 
     if(props.mode === "header") {
@@ -17,14 +18,14 @@ const Headers = (props) => {
         return (
             <div className="headers main flex-center-center">
                 <div>
-                    <img style={{width : '60px', height : '60px', borderRadius : '35px'}} src='https://img.hankyung.com/photo/202109/BF.27474984.1.jpg' />
+                    <img style={{width : '60px', height : '60px', borderRadius : '35px'}} src={user?.profileImage} />
                 </div>
                 <div className='user ml-1'>
                     <div className='useraccount'>
-                        <span className="--white" style={{fontSize : '11px'}}>123123</span>
+                        <span className="--white" style={{fontSize : '11px'}}>{user?.repUserId}</span>
                     </div>
                     <div className='username'>
-                        <span className="--white" style={{whiteSpace : 'nowrap', fontSize : '14px'}}><f className='fontbold'>김민정</f> 프로님</span>
+                        <span className="--white" style={{whiteSpace : 'nowrap', fontSize : '14px'}}><f className='fontbold'>{user?.userName}</f> 프로님</span>
                     </div>
                 </div>
                 <div className='spacer'></div>
@@ -64,17 +65,14 @@ const Headers = (props) => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-   
+
 })
 
 
 const mapReduxStateToReactProps = (state) => {
     return ({
-
+        user : state.reduxState.user
     })
 }
 
-
 export default connect(mapReduxStateToReactProps, mapDispatchToProps)(Headers)
-
-//export default Headers;

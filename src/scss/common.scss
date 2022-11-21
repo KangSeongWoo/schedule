@@ -179,3 +179,55 @@ span {
         }
     }
 }
+
+// popup
+.popup{
+    &.hide{
+        display: none;
+    }
+    .dim {
+        transition: all ease 0.5s 0s;
+        position: fixed; 
+        top: 0px; 
+        left: 0px; 
+        width: 100%; 
+        height: 100%; 
+        z-index: 10; 
+        opacity: 0.5; 
+        background: rgba(0, 0, 0, 0.4);
+        
+    }
+    .contents{
+        position: absolute;
+        height: 224px;
+        left: 38px;
+        right: 38px;
+        top: 307px;
+        z-index: 11;
+        flex-direction: column;
+        background: #565656;
+        border-radius: 10px;
+        padding: 20px;
+        display: flex;
+        justify-content: space-between;
+        .title {
+            font-style: normal;
+            font-weight: 700;
+            font-size: 18px;
+            line-height: 21px;
+            text-align: center;
+            color: #E6E6E6;
+        }
+        .message {
+            font-style: normal;
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 20px;
+            text-align: center;
+            color: #FFFFFF;
+        }
+        .button-area {
+            width: 100%;
+        }
+    }
+}

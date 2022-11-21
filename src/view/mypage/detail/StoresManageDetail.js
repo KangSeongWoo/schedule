@@ -10,6 +10,7 @@ import { HashRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
 import loadable from '@loadable/component'
 
 import '@scss/mypage.scss'
+import moment from 'moment';
 
 const selectStores = [
   { name : "Golfus 반포", value : "1",},
@@ -18,6 +19,9 @@ const selectStores = [
 ]
 
 const StoresManageDetail = (props) => {
+  const defaultData = props.location.state
+
+  //const [ selectStores, setSelectStores] = useState()
   const [ defaultStore, setDefaultStore ] = useState({ value : selectStores[0].value })
   const [ defaultColor, setDefaultColor ] = useState({ value : selectColors[0].value })
   const [ selectedWeekOfDays, setSelectedWeekOfDays ] = useState([]);
@@ -44,9 +48,38 @@ const StoresManageDetail = (props) => {
   const [ targetId, setTargetId ] = useState("");
 
   useLayoutEffect(() => {
-    changeStore(defaultStore)
-    changeColor(defaultColor)
+    changeStore(defaultStore);
+    changeColor(defaultColor);
+    setWeekOfDays();
   },[])
+
+  const setWeekOfDays = () => {
+    let tempList = []
+
+    defaultData.schedules.map((element1) => {
+      tempList.push(WeekOfDays.find((element2) => Number(element1.week.code) === element2.valueNum))
+    })
+
+      setSelectedTimeZone({
+        ...selectedTimeZone,
+        SundayStartTime :     defaultData.schedules[0]?.workingStartTime !== undefined ? moment(moment().format("YYYYMMDD") + " " + defaultData.schedules[0]?.workingStartTime).format("LT") : '',
+        SundayEndTime :       defaultData.schedules[0]?.workingEndTime !== undefined ? moment(moment().format("YYYYMMDD") + " " + defaultData.schedules[0]?.workingEndTime).format("LT") : '',
+        MondayStartTime :     defaultData.schedules[1]?.workingStartTime !== undefined ? moment(moment().format("YYYYMMDD") + " " + defaultData.schedules[1]?.workingStartTime).format("LT") : '',
+        MondayEndTime :       defaultData.schedules[1]?.workingEndTime !== undefined ? moment(moment().format("YYYYMMDD") + " " + defaultData.schedules[1]?.workingEndTime).format("LT") : '',
+        TuesdayStartTime :    defaultData.schedules[2]?.workingStartTime !== undefined ? moment(moment().format("YYYYMMDD") + " " + defaultData.schedules[2]?.workingStartTime).format("LT") : '',
+        TuesdayEndTime :      defaultData.schedules[2]?.workingEndTime !== undefined ? moment(moment().format("YYYYMMDD") + " " + defaultData.schedules[2]?.workingEndTime).format("LT") : '',
+        WednesdayStartTime :  defaultData.schedules[3]?.workingStartTime !== undefined ? moment(moment().format("YYYYMMDD") + " " + defaultData.schedules[3]?.workingStartTime).format("LT") : '',
+        WednesdayEndTime :    defaultData.schedules[3]?.workingEndTime !== undefined ? moment(moment().format("YYYYMMDD") + " " + defaultData.schedules[3]?.workingEndTime).format("LT") : '',
+        ThursdayStartTime :   defaultData.schedules[4]?.workingStartTime !== undefined ? moment(moment().format("YYYYMMDD") + " " + defaultData.schedules[4]?.workingStartTime).format("LT") : '',
+        ThursdayEndTime :     defaultData.schedules[4]?.workingEndTime !== undefined ? moment(moment().format("YYYYMMDD") + " " + defaultData.schedules[4]?.workingEndTime).format("LT") : '',
+        FridayStartTime :     defaultData.schedules[5]?.workingStartTime !== undefined ? moment(moment().format("YYYYMMDD") + " " + defaultData.schedules[5]?.workingStartTime).format("LT") : '',
+        FridayEndTime :       defaultData.schedules[5]?.workingEndTime !== undefined ? moment(moment().format("YYYYMMDD") + " " + defaultData.schedules[5]?.workingEndTime).format("LT") : '',
+        SaturdayStartTime :   defaultData.schedules[6]?.workingStartTime !== undefined ? moment(moment().format("YYYYMMDD") + " " + defaultData.schedules[6]?.workingStartTime).format("LT") : '',
+        SaturdayEndTime :     defaultData.schedules[6]?.workingEndTime !== undefined ? moment(moment().format("YYYYMMDD") + " " + defaultData.schedules[6]?.workingEndTime).format("LT") : '',
+      })
+
+    setSelectedWeekOfDays(tempList)
+  }
 
   const changeStore = (target) => {
     setDefaultStore({value : target.value})
@@ -133,9 +166,9 @@ const StoresManageDetail = (props) => {
               </div>
               <div className='selectWeekOfDays'>
                 <ul>
-                  { WeekOfDays.map((element) => (
+                  { WeekOfDays.map((element, index) => (
                     <li>
-                      <Button label={ element.label } className = {( selectedWeekOfDays.find((row) => row.value === element.value) ? "selected" : "")} noarrow onChange = {() => selectWorkingDays(element)}/>
+                      <Button label={ element.label } key={index} className = {( selectedWeekOfDays.find((row) => row.value === element.value) ? "selected" : "")} noarrow onChange = {() => selectWorkingDays(element)}/>
                     </li>
                   )) }
                 </ul>
@@ -153,8 +186,8 @@ const StoresManageDetail = (props) => {
             </div>
             <Divider direction="horizental" />
             <div className='selectedDays'>
-              { selectedWeekOfDays?.map((element1) => (
-                 <div className='times' style={{marginTop : '10px'}}>
+              { selectedWeekOfDays?.map((element1, index) => (
+                 <div className='times' key={index} style={{marginTop : '10px'}}>
                   <div className="flex-center-center time-row" style={{borderRadius : '20px', width : '32px', height : '32px', backgroundColor : "#1A1A1A", fontWeight : '500', fontSize : '15px', color : '#FFFFFF' }}>
                     { WeekOfDays?.find((element2) => element2.valueNum === element1.valueNum)?.label }
                   </div>

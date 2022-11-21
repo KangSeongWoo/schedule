@@ -10,6 +10,8 @@ import { ViewState } from '@devexpress/dx-react-scheduler';
 import { Scheduler, DayView, WeekView, Appointments } from '@devexpress/dx-react-scheduler-material-ui';
 import { HashRouter as Router, Route, Switch, Redirect, useHistory } from 'react-router-dom'
 import loadable from '@loadable/component'
+import { connect } from 'react-redux'
+import * as actions from '@store/actionCreators'
 
 import 'react-calendar/dist/Calendar.css';
 import '@scss/home.scss'
@@ -42,6 +44,8 @@ const schedulerData = [
 ];
 
 const Home = (props) => {
+  const { setUserInfo, openPopup, closePopup } = props;
+
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [isShowCalendar, setIsShowCalendar] = useState(false);
   const [defaultFilter, setDefaultFilter] = useState({ value : 3 })
@@ -53,8 +57,8 @@ const Home = (props) => {
   let history = useHistory();
 
   useLayoutEffect(() => {
-    console.log(KioskService.fetchUserProfile())
     changeFilter(defaultFilter)
+    getProfile();
   },[])
 
   useEffect(() => {
@@ -64,6 +68,45 @@ const Home = (props) => {
   useEffect(() => {
     showCalendar();
   },[selectedDate])
+
+  const getProfile = () => {
+    KioskService.fetchUserProfile()
+      .then(response => {
+          let result = response.data
+
+          setUserInfo(result)
+      })
+      .catch(error => {
+          console.error(error)
+      })
+      .finally(() => {
+        getWorkStores()
+      })
+  }
+
+  const getWorkStores = () => {
+    KioskService.fetchWorkStores()
+      .then(response => {
+        let result = response.data[0]
+        if(result.stores?.lenght == 0){
+          openPopup({
+            title : '타이틀!',
+            message : '메세지!메세지!메세지!메세지!메세지!메세지!메세지!메세지!메세지!메세지!메세지!메세지!메세지!메세지!메세지!메세지!메세지!메세지!메세지!',
+            callbackFunction : () => callbackFunction()
+          });
+        }
+      })
+      .catch(error => {
+        console.error(error)
+      })
+      .finally(() => {
+
+      })
+  }
+
+  const callbackFunction = () =>{
+    closePopup();
+  }
 
   const showCalendar = () => {
     var calendarEl = document.getElementById('calendar');
@@ -248,4 +291,23 @@ const Home = (props) => {
   );
 }
 
-export default Home;
+const mapDispatchToProps = (dispatch) => ({
+  setUserInfo: (params) => {
+    dispatch(actions.setUserInfo(params))
+  },
+  openPopup: (params) => {
+    dispatch(actions.openPopup(params))
+  },
+  closePopup: () => {
+    dispatch(actions.closePopup())
+  },
+})
+
+
+const mapReduxStateToReactProps = (state) => {
+  return ({
+    user : state.reduxState.user
+  })
+}
+
+export default connect(mapReduxStateToReactProps, mapDispatchToProps)(Home)

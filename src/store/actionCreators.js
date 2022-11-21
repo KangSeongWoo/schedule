@@ -6,26 +6,20 @@
 
 import * as types from './actionType'
 
-export const setAdminUserInfo = params => ({
-    type: types.SET_ADMIN_USER_INFO,
+export const setUserInfo = params => ({
+    type: types.SET_USER_INFO,
     params
+})
+
+export const openPopup = (params) => ({
+    type : types.OPEN_POPUP,
+    params
+})
+
+export const closePopup = () => ({
+    type : types.CLOSE_POPUP
 })
 
 export const clearAllState = () => ({
     type : types.CLEAR_ALL_STATE
-})
-
-export const setStoreList = (params) => ({
-    type : types.SET_STORE_LIST,
-    params
-})
-
-export const setStoreInfo = (params) => ({
-    type : types.SET_STORE_INFO,
-    params
-})
-
-export const setStore = (params) => ({
-    type : types.SET_STORE,
-    params
 })
