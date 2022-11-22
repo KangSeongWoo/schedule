@@ -44,7 +44,7 @@ const schedulerData = [
 ];
 
 const Home = (props) => {
-  const { setUserInfo, openPopup, closePopup } = props;
+  const { setUserInfo, openPopup, closePopup, clearAllState } = props;
 
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [isShowCalendar, setIsShowCalendar] = useState(false);
@@ -57,6 +57,7 @@ const Home = (props) => {
   let history = useHistory();
 
   useLayoutEffect(() => {
+    //clearAllState();
     changeFilter(defaultFilter)
     getProfile();
   },[])
@@ -92,7 +93,8 @@ const Home = (props) => {
           openPopup({
             title : '타이틀!',
             message : '메세지!메세지!메세지!메세지!메세지!메세지!메세지!메세지!메세지!메세지!메세지!메세지!메세지!메세지!메세지!메세지!메세지!메세지!메세지!',
-            callbackFunction : () => callbackFunction()
+            callbackFunction : () => callbackFunction(),
+            okButton : '확인'
           });
         }
       })
@@ -301,6 +303,9 @@ const mapDispatchToProps = (dispatch) => ({
   closePopup: () => {
     dispatch(actions.closePopup())
   },
+  clearAllState : () => {
+    dispatch(actions.clearAllState())
+  }
 })
 
 

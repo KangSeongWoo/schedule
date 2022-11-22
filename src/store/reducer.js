@@ -13,11 +13,18 @@ const initialState = {
     user: {
         
     },
+    schedule : {
+
+    },
     popup: {
+        type : '',
         flag : false,
         title : '',
         message : '',
-        callbackFunction : null
+        callbackFunction : null,
+        cancelFunction : null,
+        okButton : '',
+        cancelButton : ''
     }
 }
 
@@ -31,27 +38,52 @@ export const reduxState = (state = initialState, action) => {
                     ...action.params,
                 }
             }
+        case types.SET_SCHEDULE:
+            return {
+                ...state,
+                schedule : {
+                    ...state.schedule,
+                    ...action.params,
+                },
+            }
         case types.OPEN_POPUP: 
             return {
+                ...state,
                 popup: {
+                    type : action.params.type,
                     flag : true,
                     title : action.params.title,
                     message : action.params.message,
-                    callbackFunction : action.params.callbackFunction
+                    callbackFunction : action.params.callbackFunction,
+                    cancelFunction : action.params.cancelFunction,
+                    okButton : action.params.okButton,
+                    cancelButton : action.params.cancelButton
                 }
             }
         case types.CLOSE_POPUP: 
             return {
+                ...state,
+                popup: {
+                    type : '',
+                    flag : false,
+                    title : '',
+                    message : '',
+                    callbackFunction : null,
+                    cancelFunction : null,
+                    okButton : '',
+                    cancelButton : ''
+                }
+            }
+        case types.CLEAR_ALL_STATE:
+            return {
+                user: {},
+                schedule : {},
                 popup: {
                     flag : false,
                     title : '',
                     message : '',
                     callbackFunction : null
                 }
-            }
-        case types.CLEAR_ALL_STATE:
-            return {
-                user: {}
             }
         default:
             return state

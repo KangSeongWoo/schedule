@@ -15,6 +15,10 @@ const MyPage = (props) => {
     })
   }
 
+  const movePageAuthMypage = (target) => {
+    window.location.href = target;
+  }
+
   const logout = () => {
     const target = process.env.AUTH_LOGOUT_URL + "?redirect_uri=" + encodeURIComponent(process.env.API_URL + "/logout?redirect_uri=" + window.location.origin + "/#/login")
     window.location.href = target;
@@ -25,7 +29,7 @@ const MyPage = (props) => {
         <Headers title="MY"/>
         <div className='mypage'>
             <ul>
-                <li onClick={() => movePage(process.env.AUTH_MY_INFO_URL)}>
+                <li onClick={() => movePageAuthMypage(process.env.AUTH_MY_INFO_URL)}>
                     <div>
                         <span className='label'>내 정보 수정</span>
                         <div className='spacer'></div>

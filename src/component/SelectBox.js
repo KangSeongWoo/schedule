@@ -14,7 +14,7 @@ const SelectBox = (props) => {
     
     return (
         <div className="selectbox">
-            <div className={"selectBox-custom flex-center-center " + (props.border == true ? "border " : '')} onClick={showOptions}>
+            <div className={"selectBox-custom flex-center-center " + (props.border == true ? "border " : '')} onClick={!props.disabled ? showOptions : {}}>
                 <i className="svgicon" dangerouslySetInnerHTML={ {__html: props?.arr?.find((element, index) => element.value == props.value.value)?.icon} }></i>
                 <span style={{marginLeft : props.border ? '8px' : ''}}>{ props?.arr?.find((element, index) => element.value == props.value.value)?.name }</span>
                 <div className='spacer'></div>

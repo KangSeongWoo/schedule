@@ -11,6 +11,11 @@ export const setUserInfo = params => ({
     params
 })
 
+export const setSchedule = params => ({
+    type: types.SET_SCHEDULE,
+    params
+})
+
 export const openPopup = (params) => ({
     type : types.OPEN_POPUP,
     params

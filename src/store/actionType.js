@@ -8,3 +8,4 @@ export const SET_USER_INFO      = 'SET_USER_INFO';
 export const CLEAR_ALL_STATE    = "CLEAR_ALL_STATE";
 export const OPEN_POPUP         = 'OPEN_POPUP';
 export const CLOSE_POPUP        = 'CLOSE_POPUP';
+export const SET_SCHEDULE       = 'SET_SCHEDULE';

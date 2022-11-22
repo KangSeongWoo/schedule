@@ -4,26 +4,23 @@ import Button from '@component/Button'
 import Divider from '@component/Divider'
 import SelectBox from '@component/SelectBox'
 import Input from '@component/Input'
+import KioskService from '@api/KioskService'
 import BottomTimePopUp from '@component/BottomTimePopUp';
 import { WeekOfDays, selectColors } from '@utils/constant';
 import { HashRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
 import loadable from '@loadable/component'
+import * as Common from '@utils/common.js';
+import { connect } from 'react-redux'
+import * as actions from '@store/actionCreators'
 
 import '@scss/mypage.scss'
 import moment from 'moment';
 
-const selectStores = [
-  { name : "Golfus 반포", value : "1",},
-  { name : "Golfus 대치", value : "2"},
-  { name : "QED 골프아카데미 판교점", value : "3"}
-]
-
 const StoresManageDetail = (props) => {
   const defaultData = props.location.state
-
-  //const [ selectStores, setSelectStores] = useState()
-  const [ defaultStore, setDefaultStore ] = useState({ value : selectStores[0].value })
-  const [ defaultColor, setDefaultColor ] = useState({ value : selectColors[0].value })
+  const [ defaultStore, setDefaultStore ] = useState({ value : defaultData?.storeId })
+  const [ defaultColor, setDefaultColor ] = useState({ value : Common.trim(defaultData?.employeeStoreColor) !== '' ? defaultData?.employeeStoreColor : '#152B5A' })
+  const [ storeList, setStoreList ] = useState([{ name : defaultData?.storeName, value : defaultData?.storeId }])
   const [ selectedWeekOfDays, setSelectedWeekOfDays ] = useState([]);
   const [ isOpen, setIsOpen ] = useState(false)
   const [ selectedTimeZone, setSelectedTimeZone ] = useState({
@@ -48,35 +45,62 @@ const StoresManageDetail = (props) => {
   const [ targetId, setTargetId ] = useState("");
 
   useLayoutEffect(() => {
+    setDefaultPage();
+    if(Common.trim(defaultData) == ''){
+      getWorkStoreList();
+    }
     changeStore(defaultStore);
     changeColor(defaultColor);
-    setWeekOfDays();
   },[])
 
-  const setWeekOfDays = () => {
+  const getWorkStoreList = () => {
+    KioskService.fetchWorkStoreList()
+      .then(response => {
+        let result = response.data
+
+        setStoreList(
+          result.map((element) => {
+            return {
+              name : element.storeName,
+              value : element.storeId
+            }
+          })
+        )
+
+        setDefaultStore({ value : result[0].storeId})
+      })
+      .catch(error => {
+        console.error(error)
+      })
+      .finally(() => {
+
+      })
+  }
+
+  const setDefaultPage = () => {
     let tempList = []
 
-    defaultData.schedules.map((element1) => {
+    defaultData?.schedules.map((element1) => {
       tempList.push(WeekOfDays.find((element2) => Number(element1.week.code) === element2.valueNum))
     })
 
-      setSelectedTimeZone({
-        ...selectedTimeZone,
-        SundayStartTime :     defaultData.schedules[0]?.workingStartTime !== undefined ? moment(moment().format("YYYYMMDD") + " " + defaultData.schedules[0]?.workingStartTime).format("LT") : '',
-        SundayEndTime :       defaultData.schedules[0]?.workingEndTime !== undefined ? moment(moment().format("YYYYMMDD") + " " + defaultData.schedules[0]?.workingEndTime).format("LT") : '',
-        MondayStartTime :     defaultData.schedules[1]?.workingStartTime !== undefined ? moment(moment().format("YYYYMMDD") + " " + defaultData.schedules[1]?.workingStartTime).format("LT") : '',
-        MondayEndTime :       defaultData.schedules[1]?.workingEndTime !== undefined ? moment(moment().format("YYYYMMDD") + " " + defaultData.schedules[1]?.workingEndTime).format("LT") : '',
-        TuesdayStartTime :    defaultData.schedules[2]?.workingStartTime !== undefined ? moment(moment().format("YYYYMMDD") + " " + defaultData.schedules[2]?.workingStartTime).format("LT") : '',
-        TuesdayEndTime :      defaultData.schedules[2]?.workingEndTime !== undefined ? moment(moment().format("YYYYMMDD") + " " + defaultData.schedules[2]?.workingEndTime).format("LT") : '',
-        WednesdayStartTime :  defaultData.schedules[3]?.workingStartTime !== undefined ? moment(moment().format("YYYYMMDD") + " " + defaultData.schedules[3]?.workingStartTime).format("LT") : '',
-        WednesdayEndTime :    defaultData.schedules[3]?.workingEndTime !== undefined ? moment(moment().format("YYYYMMDD") + " " + defaultData.schedules[3]?.workingEndTime).format("LT") : '',
-        ThursdayStartTime :   defaultData.schedules[4]?.workingStartTime !== undefined ? moment(moment().format("YYYYMMDD") + " " + defaultData.schedules[4]?.workingStartTime).format("LT") : '',
-        ThursdayEndTime :     defaultData.schedules[4]?.workingEndTime !== undefined ? moment(moment().format("YYYYMMDD") + " " + defaultData.schedules[4]?.workingEndTime).format("LT") : '',
-        FridayStartTime :     defaultData.schedules[5]?.workingStartTime !== undefined ? moment(moment().format("YYYYMMDD") + " " + defaultData.schedules[5]?.workingStartTime).format("LT") : '',
-        FridayEndTime :       defaultData.schedules[5]?.workingEndTime !== undefined ? moment(moment().format("YYYYMMDD") + " " + defaultData.schedules[5]?.workingEndTime).format("LT") : '',
-        SaturdayStartTime :   defaultData.schedules[6]?.workingStartTime !== undefined ? moment(moment().format("YYYYMMDD") + " " + defaultData.schedules[6]?.workingStartTime).format("LT") : '',
-        SaturdayEndTime :     defaultData.schedules[6]?.workingEndTime !== undefined ? moment(moment().format("YYYYMMDD") + " " + defaultData.schedules[6]?.workingEndTime).format("LT") : '',
-      })
+    setSelectedTimeZone({
+      ...selectedTimeZone,
+      SundayStartTime :     defaultData?.schedules.find((element) => element.week.code === "0")?.workingStartTime !== undefined ? moment(moment().format("YYYYMMDD") + " " + defaultData?.schedules.find((element) => element.week.code === "0")?.workingStartTime).format("LT") : '',
+      SundayEndTime :       defaultData?.schedules.find((element) => element.week.code === "0")?.workingEndTime !== undefined ? moment(moment().format("YYYYMMDD") + " " + defaultData?.schedules.find((element) => element.week.code === "0")?.workingEndTime).format("LT") : '',
+      MondayStartTime :     defaultData?.schedules.find((element) => element.week.code === "1")?.workingStartTime !== undefined ? moment(moment().format("YYYYMMDD") + " " + defaultData?.schedules.find((element) => element.week.code === "1")?.workingStartTime).format("LT") : '',
+      MondayEndTime :       defaultData?.schedules.find((element) => element.week.code === "1")?.workingEndTime !== undefined ? moment(moment().format("YYYYMMDD") + " " + defaultData?.schedules.find((element) => element.week.code === "1")?.workingEndTime).format("LT") : '',
+      TuesdayStartTime :    defaultData?.schedules.find((element) => element.week.code === "2")?.workingStartTime !== undefined ? moment(moment().format("YYYYMMDD") + " " + defaultData?.schedules.find((element) => element.week.code === "2")?.workingStartTime).format("LT") : '',
+      TuesdayEndTime :      defaultData?.schedules.find((element) => element.week.code === "2")?.workingEndTime !== undefined ? moment(moment().format("YYYYMMDD") + " " + defaultData?.schedules.find((element) => element.week.code === "2")?.workingEndTime).format("LT") : '',
+      WednesdayStartTime :  defaultData?.schedules.find((element) => element.week.code === "3")?.workingStartTime !== undefined ? moment(moment().format("YYYYMMDD") + " " + defaultData?.schedules.find((element) => element.week.code === "3")?.workingStartTime).format("LT") : '',
+      WednesdayEndTime :    defaultData?.schedules.find((element) => element.week.code === "3")?.workingEndTime !== undefined ? moment(moment().format("YYYYMMDD") + " " + defaultData?.schedules.find((element) => element.week.code === "3")?.workingEndTime).format("LT") : '',
+      ThursdayStartTime :   defaultData?.schedules.find((element) => element.week.code === "4")?.workingStartTime !== undefined ? moment(moment().format("YYYYMMDD") + " " + defaultData?.schedules.find((element) => element.week.code === "4")?.workingStartTime).format("LT") : '',
+      ThursdayEndTime :     defaultData?.schedules.find((element) => element.week.code === "4")?.workingEndTime !== undefined ? moment(moment().format("YYYYMMDD") + " " + defaultData?.schedules.find((element) => element.week.code === "4")?.workingEndTime).format("LT") : '',
+      FridayStartTime :     defaultData?.schedules.find((element) => element.week.code === "5")?.workingStartTime !== undefined ? moment(moment().format("YYYYMMDD") + " " + defaultData?.schedules.find((element) => element.week.code === "5")?.workingStartTime).format("LT") : '',
+      FridayEndTime :       defaultData?.schedules.find((element) => element.week.code === "5")?.workingEndTime !== undefined ? moment(moment().format("YYYYMMDD") + " " + defaultData?.schedules.find((element) => element.week.code === "5")?.workingEndTime).format("LT") : '',
+      SaturdayStartTime :   defaultData?.schedules.find((element) => element.week.code === "6")?.workingStartTime !== undefined ? moment(moment().format("YYYYMMDD") + " " + defaultData?.schedules.find((element) => element.week.code === "6")?.workingStartTime).format("LT") : '',
+      SaturdayEndTime :     defaultData?.schedules.find((element) => element.week.code === "6")?.workingEndTime !== undefined ? moment(moment().format("YYYYMMDD") + " " + defaultData?.schedules.find((element) => element.week.code === "6")?.workingEndTime).format("LT") : '',
+    })
 
     setSelectedWeekOfDays(tempList)
   }
@@ -141,6 +165,50 @@ const StoresManageDetail = (props) => {
     })
   }
 
+  const deleteSchedule = (target) => {
+    let params = {}
+
+    params.storeId = defaultData?.storeId
+    params.storeEmployeeId = defaultData?.storeEmployeeId
+    params.lessonerWorkPlanIds = defaultData?.schedules.find((element) => Number(element.week.code) === target.valueNum).lessonerWorkPlanId
+
+    KioskService.fetchDeleteWorkingTime(params)
+      .then(response => {
+        let result = response.data
+
+
+      })
+      .catch(error => {
+        console.error(error)
+      })
+      .finally(() => {
+
+      })
+  }
+
+  const saveTheWorkingSchedule = () => {
+    let params = {}
+
+    params.storeColor = defaultColor.value
+    params.storeEmployeeId = defaultData.storeEmployeeId
+    params.list = []
+
+    defaultData.schedules.map((element) => {
+      params.list.push({
+        week : element.week.code,
+        lessonerWorkPlanId : element.lessonerWorkPlanId,
+        workingStartTime : selectedTimeZone[WeekOfDays?.find((element1) => element1.valueNum === Number(element.week.code))?.value + "StartTime"],
+        workingEndTime : selectedTimeZone[WeekOfDays?.find((element1) => element1.valueNum === Number(element.week.code))?.value + "EndTime"]
+      })
+    })
+
+    console.log(params)
+
+    // "lessonerWorkPlanId": 1,
+    // "workingEndTime": "2100",
+    // "workingStartTime": "1000",
+    // "week": "0"
+  }
   return (
     <>
         <Headers title="근무 매장 관리" goback gobackFunction = "/workingdaysmanage"/>
@@ -157,12 +225,16 @@ const StoresManageDetail = (props) => {
               <div className='selectstores'>
                 <span className='label'>선택 매장</span>
                 <div className='spacer'></div>
-                <SelectBox value={defaultStore} arr={selectStores} onChange={changeStore}/>
+                <SelectBox value={defaultStore} arr={storeList} onChange={changeStore} disabled={Common.trim(defaultData) != '' ? true : false}/>
               </div>
               <div className='selectcolor'>
                 <span className='label'>매장 색상설정</span>
                 <div className='spacer'></div>
                 <SelectBox value={defaultColor} arr={selectColors} style={{height : '45px'}} onChange={changeColor} type="icon" horizental/>
+              </div>
+              <div className='selectcolor'>
+                <span className='label'>근무요일 선택</span>
+                <div className='spacer'></div>
               </div>
               <div className='selectWeekOfDays'>
                 <ul>
@@ -184,7 +256,7 @@ const StoresManageDetail = (props) => {
                 <Button label="적용" onChange={setAllTimeSet} black noarrow/>
               </div>
             </div>
-            <Divider direction="horizental" />
+            <Divider direction="horizental" style={{margin : '20px'}}/>
             <div className='selectedDays'>
               { selectedWeekOfDays?.map((element1, index) => (
                  <div className='times' key={index} style={{marginTop : '10px'}}>
@@ -202,13 +274,18 @@ const StoresManageDetail = (props) => {
                     value={selectedTimeZone[ (WeekOfDays?.find((element2) => element2.valueNum === element1.valueNum)?.value) + "EndTime"]}
                     style={{ width : '100px', height: "26px" }} 
                     onChange = {(e) => openModal(e)} readOnly/>
-                  <Button label="X" noarrow/>
+                  <i className='flex-center-center' style={{width : '15px'}} onClick={() => deleteSchedule(element1)}>
+                    <svg width="11" height="11" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <rect width="1.48212" height="13.8331" transform="matrix(0.718233 -0.695803 0.718233 0.695803 0 1.375)" fill="#939393"/>
+                      <rect width="1.48212" height="13.8331" transform="matrix(0.718233 0.695803 -0.718233 0.695803 9.93555 0)" fill="#939393"/>
+                    </svg>
+                  </i>
                 </div>
               )) }        
             </div>
             <div className='button-area'>
               <Divider direction="horizental" />
-              <Button label="저장" style={{height : '30px'}} black noarrow/>
+              <Button label="저장" style={{height : '30px'}} black noarrow onChange={saveTheWorkingSchedule}/>
             </div>
         </div>
         <BottomTimePopUp type="time" id={targetId} open={isOpen} setIsOpen={setIsOpen} onChange={handleTime}/>
@@ -216,4 +293,15 @@ const StoresManageDetail = (props) => {
   );
 }
 
-export default StoresManageDetail;
+const mapDispatchToProps = (dispatch) => ({
+
+})
+
+
+const mapReduxStateToReactProps = (state) => {
+  return ({
+    // user : state.reduxState.user
+  })
+}
+
+export default connect(mapReduxStateToReactProps, mapDispatchToProps)(StoresManageDetail)

@@ -12,12 +12,14 @@ import BottomTimePopUp from '@component/BottomTimePopUp';
 import { WeekOfDays, selectColors } from '@utils/constant';
 import { HashRouter as Router, Route, Switch, Redirect, useHistory } from 'react-router-dom'
 import loadable from '@loadable/component'
+import { connect } from 'react-redux'
+import * as actions from '@store/actionCreators'
 
 import '@scss/mypage.scss'
 
 const StoresManage = (props) => {
-  const [ rowData, setRowData ] = useState()
   const [ stores, setStores ] = useState()
+  const [ rowData, setRowData ] = useState();
 
   let history = useHistory();
 
@@ -39,8 +41,8 @@ const StoresManage = (props) => {
             modifiedStore.push(
               {
                 title : element1.storeName,
-                start: moment().startOf('isoWeek').add(index, "days").format("YYYY-MM-DD") + "T" + element2.workingStartTime.slice(0,2) + ":"+ element2.workingStartTime.slice(2,4) + ":00",
-                end: moment().startOf('isoWeek').add(index, "days").format("YYYY-MM-DD") + "T" + element2.workingEndTime.slice(0,2) + ":"+ element2.workingEndTime.slice(2,4) + ":00",
+                start: moment().startOf('week').add(Number(element2.week.code), "days").format("YYYY-MM-DD") + "T" + element2.workingStartTime.slice(0,2) + ":"+ element2.workingStartTime.slice(2,4) + ":00",
+                end: moment().startOf('week').add(Number(element2.week.code), "days").format("YYYY-MM-DD") + "T" + element2.workingEndTime.slice(0,2) + ":"+ element2.workingEndTime.slice(2,4) + ":00",
                 color : element1.employeeStoreColor != null ? element1.employeeStoreColor : '#152B5A',
                 id : element1.storeId
               }
@@ -64,6 +66,7 @@ const StoresManage = (props) => {
     var calendar = new FullCalendar.Calendar(calendarEl, {
       selectable: false,
       timeZone: 'UTC',
+      firstDay : 0,
       initialView: 'timeGridWeek',   
       headerToolbar: {
         left: 'prev,next',
@@ -120,4 +123,17 @@ const StoresManage = (props) => {
   );
 }
 
-export default StoresManage;
+const mapDispatchToProps = (dispatch) => ({
+  setSchedule: (params) => {
+    //dispatch(actions.setSchedule(params))
+  },
+})
+
+
+const mapReduxStateToReactProps = (state) => {
+  return ({
+    //schedule : state.reduxState.schedule
+  })
+}
+
+export default connect(mapReduxStateToReactProps, mapDispatchToProps)(StoresManage)
