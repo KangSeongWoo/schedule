@@ -208,7 +208,7 @@ const HolidaysManage = (props) => {
                     <div className='info'>
                       <div className='period'>
                         <span className='period'>
-                          {moment(element.startYmd).format("YYYY-MM-DD")} ~ {moment(element.endYmd).format("YYYY-MM-DD")}({Number(moment.duration(moment(element.endTmd).diff(moment(element.startTmd))).asDays()) + 1}일)
+                          {moment(element.startYmd).format("YYYY-MM-DD")} ~ {moment(element.endYmd).format("YYYY-MM-DD")}({Math.ceil(Number(moment.duration(moment(element.endTmd).diff(moment(element.startTmd))).asDays())) + 1}일)
                         </span>
                         <span className='delete' onClick={() => ConfirmDeleteHoliday(element.storeEmployeeHolidayGroupId)}>삭제</span>
                       </div>

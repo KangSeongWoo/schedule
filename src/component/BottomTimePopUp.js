@@ -80,7 +80,7 @@ const BottomTimePopUp = (props) => {
 
         tempSelectedTime.timeLabel = selectedTime.ampm.label + " " + selectedTime.hours + ":" + selectedTime.minutes
 
-        let tempMomentType = selectedTime.ampm === "pm" ?  Number(selectedTime.hours) + 12 : selectedTime.hours + ":" + selectedTime.minutes
+        let tempMomentType = selectedTime.ampm.value === "pm" ?  moment(moment().format("YYYYMMDD") + " " + (Number(selectedTime.hours) + 12)  + selectedTime.minutes) : moment(moment().format("YYYYMMDD") + " " + (selectedTime.hours < 10 ? "0" + selectedTime.hours : selectedTime.hours) + selectedTime.minutes)
 
         tempSelectedTime.momentType = moment(tempMomentType)
 

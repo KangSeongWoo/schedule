@@ -5,7 +5,7 @@ import Headers from '@template/Header'
 import Button from '@component/Button'
 import SelectBox from '@component/SelectBox'
 import KioskService from '@api/KioskService'
-import { selectDaysInterval, WeekOfDays } from '@utils/constant';
+import { selectDaysInterval, WeekOfDays, selectColors } from '@utils/constant';
 import { ViewState } from '@devexpress/dx-react-scheduler';
 import { Scheduler, DayView, WeekView, Appointments } from '@devexpress/dx-react-scheduler-material-ui';
 import { HashRouter as Router, Route, Switch, Redirect, useHistory } from 'react-router-dom'
@@ -49,6 +49,8 @@ const Home = (props) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [isShowCalendar, setIsShowCalendar] = useState(false);
   const [defaultFilter, setDefaultFilter] = useState({ value : 3 })
+  const [searchedList, setSearchedList] = useState()
+
   const [viewState, setViewState] = useState({
     category : "Week",
     excludedDays : []
@@ -60,6 +62,7 @@ const Home = (props) => {
     //clearAllState();
     changeFilter(defaultFilter)
     getProfile();
+    getSchdules();
   },[])
 
   useEffect(() => {
@@ -68,7 +71,60 @@ const Home = (props) => {
 
   useEffect(() => {
     showCalendar();
-  },[selectedDate])
+  },[selectedDate,searchedList])
+
+  const getSchdules = () => {
+    let params = {}
+
+    params.list = []
+
+    for(let i = 0; i < defaultFilter.value; i++){
+      params.list.push(moment(selectedDate).add(String(i), 'days').format("YYYYMMDD"))
+    }
+
+    KioskService.fetchGetLessonSchedulesList(params)
+      .then(response => {
+        let result = response.data
+        let temp = [];
+        //setSearchedList(result)
+
+        result.proHolidayList.map((element) => {
+          let startDate = moment(element.startYmd + " 000000")
+          let endDate = moment(element.endYmd + " 000000").add(1, "days")
+
+          for(let i = 0; i < moment.duration(endDate.diff(startDate)).asDays(); i++){
+            temp.push({
+              title: '휴무일',
+              start: moment(element.startYmd).format("YYYY-MM-DD") + 'T00:00:00',
+              end: moment(element.endYmd).format("YYYY-MM-DD") + 'T23:59:59',
+              color : '#254728'
+            })
+          }
+        })
+
+        result.coachScheduleHeads.map((element1) => {
+          element1.scheduleList.map((element2) => {
+            element2.details.map((element3) => {
+              temp.push({
+                title: element2.storeUser.userName,
+                start: moment(element3.startTime).locale("ko").format(),
+                end: moment(element3.endTime).locale("ko").format(),
+                color : selectColors.find((element) => element.value === '#'+element2.employeeStoreColor) ? '#'+element2.employeeStoreColor : '#152B5A'
+              })
+            })
+          })
+        })
+
+        setSearchedList(temp)
+
+      })
+      .catch(error => {
+          console.error(error)
+      })
+      .finally(() => {
+
+      })
+  }
 
   const getProfile = () => {
     KioskService.fetchUserProfile()
@@ -89,9 +145,9 @@ const Home = (props) => {
     KioskService.fetchWorkStores()
       .then(response => {
         let result = response.data[0]
-        if(result.stores?.lenght == 0){
+        if(result.stores?.length == 0){
           openPopup({
-            title : '타이틀!',
+            title : '알림',
             message : '메세지!메세지!메세지!메세지!메세지!메세지!메세지!메세지!메세지!메세지!메세지!메세지!메세지!메세지!메세지!메세지!메세지!메세지!메세지!',
             callbackFunction : () => callbackFunction(),
             okButton : '확인'
@@ -139,7 +195,6 @@ const Home = (props) => {
         }
       },
       allDaySlot: false,
-      height: 'auto',
       locale: 'en-GB',
       scrollTime: '00:00',
       slotLabelFormat: {  
@@ -148,15 +203,15 @@ const Home = (props) => {
         omitZeroMinute: false,
       },
       eventClick : function(info) {
-        history.push({
-          pathname: "/detail",
-          state: info
-        })
+        if(info.title != "휴무일"){
+          history.push({
+            pathname: "/detail",
+            state: info
+          })
+        }
       },
-      // dateClick: function(info) {
-      //   alert('clicked ' + info.dateStr);
-      // },
-      events: schedulerData
+      height : 'auto',
+      events: searchedList
     });
   
     calendar.render();
@@ -214,22 +269,6 @@ const Home = (props) => {
       })
     }
   }
-        
-  const detailAppointment = (e) => {
-    history.push({
-      pathname: "/detail",
-      state: e
-    })
-  }
-
-  const AppointmentContent = (e) => {
-    return (
-      <div className="appointment" onClick={() => detailAppointment(e)}>
-        <span>{e.data.title}</span><br/>
-        <span>{moment(e.data.startDate).format("h:mm a")} ~ {moment(e.data.endDate).format("h:mm a")}</span>
-      </div>
-    )
-  }
   return (
     <>
       <Headers mode="header"/>
@@ -268,25 +307,6 @@ const Home = (props) => {
         </div>
         <div className='scheduler'>
           <div id='calendar'></div>
-          {/* <Scheduler
-            data={schedulerData}
-          >
-            <ViewState
-              defaultCurrentDate={currentDate}
-              currentViewName={viewState.category}
-            />
-
-            <WeekView
-              startDayHour={6}
-              endDayHour={23}
-              excludedDays={viewState.excludedDays}
-            />
-            <DayView
-              startDayHour={6}
-              endDayHour={23}
-            />
-            <Appointments appointmentContentComponent={AppointmentContent}/>
-          </Scheduler> */}
         </div>
       </div>
     </>

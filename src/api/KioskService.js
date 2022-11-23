@@ -10,7 +10,9 @@ class KioskService {
 
     fetchWorkStoreList = () => instance.get(baseUrl + '/api/proLesson/WorkStoresList')
 
-    fetchWorkingList = (params) => instance.post(baseUrl + '/api/proLesson/workPlan?stoerColor=testColor22&storeEmployeeId=61', params)
+    fetchGetLessonSchedulesList = (params) => instance.get(baseUrl + '/api/proLesson/schedule?dayList=' + params.list.join(","));
+
+    fetchSetWorkingList = (params) => instance.post(baseUrl + '/api/proLesson/workPlan?stoerColor=' + params.storeColor + '&storeEmployeeId=' + params.storeEmployeeId, params.list)
 
     fetchDeleteWorkingTime = (params) => instance.delete(baseUrl + '/api/stores/'+params.storeId+'/employees/'+params.storeEmployeeId+'/schedules?ids='+params.lessonerWorkPlanIds)
 

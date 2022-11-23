@@ -50,7 +50,9 @@ const StoresManage = (props) => {
                   <div className='storename'>{element1.storeName}</div>
                   <div className='workingdays'>
                     { 
-                        element1.schedules.map((element3) => {
+                        element1.schedules.sort((a, b) => {
+                          return Number(a.week.code) - Number(b.week.code)
+                        }).map((element3) => {
                           return(
                             <div className='workingday flex-center-center'>{Constant.WeekOfDays.find((element4) => element4.valueNum === Number(element3.week.code)).label}</div>
                           )

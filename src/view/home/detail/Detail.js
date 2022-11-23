@@ -92,6 +92,9 @@ const Detail = (props) => {
                     </li>
                 </ul>
                 <div id="map" className='kakaomap' style={{height : '250px', borderRadius : '10px', margin : '0px 20px'}}></div>
+                <div className='notice'>
+                    <p>※ 근무설정을 수정해도 이미 등록된 레슨은 취소되지 않습니다.</p>
+                </div>
             </div>
         </>
     );

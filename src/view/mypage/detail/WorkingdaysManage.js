@@ -43,7 +43,7 @@ const StoresManage = (props) => {
                 title : element1.storeName,
                 start: moment().startOf('week').add(Number(element2.week.code), "days").format("YYYY-MM-DD") + "T" + element2.workingStartTime.slice(0,2) + ":"+ element2.workingStartTime.slice(2,4) + ":00",
                 end: moment().startOf('week').add(Number(element2.week.code), "days").format("YYYY-MM-DD") + "T" + element2.workingEndTime.slice(0,2) + ":"+ element2.workingEndTime.slice(2,4) + ":00",
-                color : element1.employeeStoreColor != null ? element1.employeeStoreColor : '#152B5A',
+                color : element1.employeeStoreColor != null ? "#"+element1.employeeStoreColor : '#152B5A',
                 id : element1.storeId
               }
             )
